@@ -56,7 +56,7 @@ test_that("rproj = FALSE does not create a .Rproj (RStudio case)", {
 })
 
 test_that("list_layers returns the layers", {
-  expect_identical(list_layers(), c("base", "cpp", "python"))
+  expect_identical(list_layers(), c("base", "cpp", "python", "quarto"))
 })
 
 test_that("git initialises a repository", {

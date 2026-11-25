@@ -1,6 +1,6 @@
 # skeltools <img src="logo/skeltools_hex.png" align="right" width="130" alt="skeltools logo"/>
 
-Creates a standard project structure for R analyses, with optional Python and C/C++ layers.
+Creates a standard project structure for R analyses, with optional Python, C/C++ and Quarto layers.
 
 ## Repository layout
 
@@ -35,12 +35,15 @@ library(skeltools)
 create_project("~/projects/myproject")                            # R only
 create_project("~/projects/myproject", python = TRUE)             # + Python
 create_project("~/projects/myproject", python = TRUE, cpp = TRUE,
-               git = TRUE, open = TRUE)                           # everything
+               quarto = TRUE, git = TRUE, open = TRUE)            # everything
 list_layers()                                                     # available layers
+
+# Quarto report in an existing project
+create_qmd("~/projects/myproject/analysis", title = "First analysis")
 ```
 
 In RStudio: **File > New Project > New Directory > Analysis project (skeltools)**.
-The form offers Python, C/C++ and git checkboxes.
+The form offers Python, C/C++, Quarto and git checkboxes.
 
 ## Created structure
 
@@ -54,10 +57,26 @@ myproject/
 │   ├── python/    main.py              (python = TRUE)
 │   └── cpp/       hello.cpp, via Rcpp  (cpp = TRUE)
 ├── myproject.Rproj
+├── myproject.qmd                       (quarto = TRUE)
+├── references.bib                      (quarto = TRUE)
 ├── README.md
 ├── .gitignore
 └── requirements.txt                    (python = TRUE)
 ```
+
+## Quarto report
+
+`create_qmd()` writes a Quarto report from the package template: YAML header
+(author, ORCID, email, `params`, bibliography), a setup chunk that sources
+`src/R/*.R`, the sections Objective, Data, Methods, Results, Discussion and
+References, and an appendix with `sessionInfo()`. An empty `references.bib` is
+created next to it. Set your own author details once, for example in `.Rprofile`:
+
+```r
+options(skeltools.author = "Jane Doe", skeltools.orcid = "", skeltools.email = "")
+```
+
+An empty ORCID or email removes the line. Render with `quarto render myproject.qmd`.
 
 ## Adding a layer
 

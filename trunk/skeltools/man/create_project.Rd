@@ -8,6 +8,7 @@ create_project(
   path,
   python = FALSE,
   cpp = FALSE,
+  quarto = FALSE,
   layers = NULL,
   git = FALSE,
   rproj = TRUE,
@@ -21,6 +22,8 @@ create_project(
 \item{python}{adds the Python layer (\verb{src/python/}, \code{requirements.txt}).}
 
 \item{cpp}{adds the C/C++ layer (\verb{src/cpp/}, Rcpp example).}
+
+\item{quarto}{adds the Quarto layer (\verb{<name>.qmd}, \code{references.bib}).}
 
 \item{layers}{names of additional layers (see \code{\link[=list_layers]{list_layers()}}).}
 
@@ -37,8 +40,8 @@ the absolute project path, invisibly.
 }
 \description{
 Assembles the base template (\verb{data/}, \verb{archive/}, \verb{tmp/}, \verb{src/R/})
-and, optionally, the Python and C/C++ layers or any other layer stored
-in the package.
+and, optionally, the Python, C/C++ and Quarto layers or any other layer
+stored in the package.
 }
 \details{
 Each layer is a folder \verb{inst/templates/<layer>/} containing:
@@ -51,10 +54,13 @@ and the \verb{dot-} prefix becomes \code{.} (e.g. \code{dot-gitkeep} -> \code{.g
 }
 
 Template files must be text files.
+
+The \code{quarto} layer also writes \verb{<name>.qmd} and \code{references.bib} at the
+project root with \code{\link[=create_qmd]{create_qmd()}}.
 }
 \examples{
 p <- file.path(tempdir(), "myproject")
-create_project(p, python = TRUE, cpp = TRUE)
+create_project(p, python = TRUE, cpp = TRUE, quarto = TRUE)
 list.files(p, recursive = TRUE, all.files = TRUE)
 unlink(p, recursive = TRUE)
 }
