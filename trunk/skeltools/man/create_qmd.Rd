@@ -6,6 +6,7 @@
 \usage{
 create_qmd(
   file,
+  template = "report",
   title = NULL,
   author = getOption("skeltools.author", "Pierre Bady"),
   orcid = getOption("skeltools.orcid", "0000-0003-1398-4689"),
@@ -18,6 +19,9 @@ create_qmd(
 }
 \arguments{
 \item{file}{path of the report. The \code{.qmd} extension is added if missing.}
+
+\item{template}{name of the Quarto template, see \code{\link[=list_qmd_templates]{list_qmd_templates()}}:
+\code{"report"} (standard report) or \code{"PBreport"} (customised report).}
 
 \item{title}{report title. Defaults to the file name without extension.}
 
@@ -59,6 +63,7 @@ An empty \code{orcid} or \code{email} removes the corresponding line.
 d <- file.path(tempdir(), "qmd-example")
 dir.create(d)
 create_qmd(file.path(d, "analysis"), title = "First analysis")
+create_qmd(file.path(d, "custom"), template = "PBreport")
 list.files(d)
 unlink(d, recursive = TRUE)
 }

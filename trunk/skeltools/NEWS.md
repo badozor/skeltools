@@ -10,7 +10,8 @@
   the environment, so specific to the project); also available
   as `create_project(venv = TRUE)`.
 * `create_qmd()`: Quarto report template (`.qmd` + `references.bib`);
-  also available as `create_project(quarto = TRUE)`.
+  also available as `create_project(quarto = TRUE)`. Two templates:
+  `report` (standard) and `PBreport` (customised), see `list_qmd_templates()`.
 * RStudio project template (File > New Project).
 * Repository organised under `trunk/`: package sources (`trunk/skeltools`),
   PDF manual (`trunk/documentation`), archives (`trunk/Rpackage`).

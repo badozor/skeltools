@@ -1,0 +1,114 @@
+---
+title: "{{title}}"
+subtitle: "Project: {{name}}"
+author:
+  - name: "{{author}}"
+    orcid: {{orcid}}
+    email: "{{email}}"
+date: today
+date-format: "YYYY-MM-DD"
+lang: en
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    code-tools: true
+    embed-resources: true
+    df-print: paged
+    fig-width: 7
+    fig-height: 5
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+params:
+  data_file: "data/data.csv"
+  seed: 123
+bibliography: references.bib
+Jupyter: myenv
+engine: knitr
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+set.seed(params$seed)
+
+# Packages
+library(knitr)
+
+# Project R scripts (src/R/*.R, in alphabetical order)
+for (f in list.files("src/R", "\\.R$", full.names = TRUE)) source(f)
+
+# Python via reticulate (optional)
+# library(reticulate)
+# use_virtualenv("myenv", required = TRUE)
+```
+
+# Objective
+
+Research question. Hypotheses.
+
+# Data
+
+```{r}
+#| label: data-import
+if (file.exists(params$data_file)) {
+  dat <- read.csv(params$data_file)
+} else {
+  dat <- iris  # example, replace with the project data
+}
+str(dat)
+```
+
+```{r}
+#| label: tbl-summary
+#| tbl-cap: "Data summary"
+kable(summary(dat))
+```
+
+# Methods
+
+Description of the analyses. Software: R `r getRversion()`.
+
+# Results
+
+```{r}
+#| label: fig-example
+#| fig-cap: "Example figure"
+plot(dat[[1]], dat[[2]], pch = 19,
+     xlab = names(dat)[1], ylab = names(dat)[2])
+```
+
+@fig-example and @tbl-summary show ...
+
+```{python}
+#| label: py-example
+#| eval: false
+#| include: false
+# Python chunk: set eval and include to true to run it (needs reticulate)
+import sys
+sys.path.insert(0, "src/python")
+```
+
+# Discussion
+
+Key points. Limitations.
+
+# References
+
+::: {#refs}
+:::
+
+# Appendix {.appendix}
+
+## Session information
+
+```{r}
+#| label: session-info
+sessionInfo()
+```
