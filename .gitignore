@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 *.Rcheck/
+trunk/dev
 
 # Archives: only those in trunk/Rpackage are versioned
 *.tar.gz
