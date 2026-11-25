@@ -13,10 +13,13 @@
 #' so no activation is needed.
 #'
 #' When `ipykernel` is installed in the environment, the environment is also
-#' registered as a Jupyter kernel with the same name
-#' (`python -m ipykernel install --user --name myenv`), so that the line
-#' `Jupyter: myenv` of the Quarto template points to it. The kernel is
-#' registered for the current user, outside the project folder.
+#' registered as a Jupyter kernel with the same name, inside the environment
+#' itself (`python -m ipykernel install --sys-prefix --name myenv`). The kernel
+#' is therefore specific to the project: nothing is written outside the
+#' project folder, and two projects can each have their own `myenv`. It is
+#' visible to Jupyter and Quarto when the environment is activated
+#' (`source myenv/bin/activate`), so that the line `Jupyter: myenv` of the
+#' Quarto template points to it.
 #'
 #' @param path project folder.
 #' @param python path of the Python interpreter used to create the
@@ -83,16 +86,17 @@ create_venv <- function(path = ".", python = NULL, name = "myenv",
   if (isTRUE(kernel) &&
       system2(py_env, c("-c", shQuote("import ipykernel")),
               stdout = FALSE, stderr = FALSE) == 0) {
-    status <- system2(py_env, c("-m", "ipykernel", "install", "--user",
+    display <- paste0(name, " (", basename(path), ")")
+    status <- system2(py_env, c("-m", "ipykernel", "install", "--sys-prefix",
                                 "--name", shQuote(name),
-                                "--display-name", shQuote(name)),
+                                "--display-name", shQuote(display)),
                       stdout = if (quiet) FALSE else "",
                       stderr = if (quiet) FALSE else "")
     if (status != 0) {
       warning("Jupyter kernel '", name, "' could not be registered.",
               call. = FALSE)
     } else if (!quiet) {
-      message("Jupyter kernel registered: ", name)
+      message("Jupyter kernel registered in the environment: ", display)
     }
   }
   if (!quiet) {

@@ -6,7 +6,8 @@
   through the `layers` argument.
 * `list_layers()`: lists the available layers.
 * `create_venv()`: Python environment `myenv/` (venv + pip install of
-  `requirements.txt`, Jupyter kernel `myenv` via ipykernel); also available
+  `requirements.txt`, Jupyter kernel `myenv` registered inside
+  the environment, so specific to the project); also available
   as `create_project(venv = TRUE)`.
 * `create_qmd()`: Quarto report template (`.qmd` + `references.bib`);
   also available as `create_project(quarto = TRUE)`.
