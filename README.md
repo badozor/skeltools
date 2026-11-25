@@ -36,7 +36,7 @@ create_project("~/projects/myproject")                            # R only
 create_project("~/projects/myproject", python = TRUE)             # + Python
 create_project("~/projects/myproject", python = TRUE, cpp = TRUE,
                git = TRUE, open = TRUE)                           # everything
-list_layers()
+list_layers()                                                     # available layers
 ```
 
 In RStudio: **File > New Project > New Directory > Analysis project (skeltools)**.
@@ -74,8 +74,11 @@ Conventions in `files/`: `{{name}}` and `{{date}}` are replaced in the content,
 `__name__` in file names, and the `dot-` prefix becomes `.`
 (`dot-gitkeep` gives `.gitkeep`, which prevents `R CMD build` from dropping hidden files).
 
-Then add the matching argument to `create_project()` and a checkbox to
-`trunk/skeltools/inst/rstudio/templates/project/skeltools.dcf`.
+Template files must be text files. After reinstalling the package, the new layer is
+available without changing the code: `create_project("myproject", layers = "<layer>")`.
+To offer it in RStudio, add a checkbox to
+`trunk/skeltools/inst/rstudio/templates/project/skeltools.dcf` and pass it on in
+`rstudio_project()`.
 
 ## Building the archives and the documentation
 

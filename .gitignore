@@ -3,9 +3,9 @@
 .RData
 *.Rcheck/
 
-# Archives : seules celles de trunk/Rpackage sont versionnees
+# Archives: only those in trunk/Rpackage are versioned
 *.tar.gz
 !trunk/Rpackage/*.tar.gz
 
-# Fichiers temporaires LaTeX de Rd2pdf
+# Temporary LaTeX files from Rd2pdf
 .Rd2pdf*/

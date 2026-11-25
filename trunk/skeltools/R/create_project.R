@@ -1,7 +1,8 @@
 #' Create a project from the skeltools templates
 #'
 #' Assembles the base template (`data/`, `archive/`, `tmp/`, `src/R/`)
-#' and, optionally, the Python and C/C++ layers.
+#' and, optionally, the Python and C/C++ layers or any other layer stored
+#' in the package.
 #'
 #' Each layer is a folder `inst/templates/<layer>/` containing:
 #' * `files/`: files copied into the project. `{{name}}` and `{{date}}`
@@ -10,9 +11,12 @@
 #' * `gitignore`: fragment appended to the project `.gitignore`.
 #' * `structure.md`, `start.md`: fragments inserted into `README.md`.
 #'
+#' Template files must be text files.
+#'
 #' @param path project path. Must not exist or must be an empty folder.
 #' @param python adds the Python layer (`src/python/`, `requirements.txt`).
 #' @param cpp adds the C/C++ layer (`src/cpp/`, Rcpp example).
+#' @param layers names of additional layers (see [list_layers()]).
 #' @param git initialises a git repository with an initial commit.
 #' @param rproj creates the `<name>.Rproj` file.
 #' @param open opens the project in RStudio at the end (if available).
@@ -25,12 +29,20 @@
 #' list.files(p, recursive = TRUE, all.files = TRUE)
 #' unlink(p, recursive = TRUE)
 #' @export
-create_project <- function(path, python = FALSE, cpp = FALSE, git = FALSE,
-                           rproj = TRUE, open = FALSE, quiet = FALSE) {
-  stopifnot(is.character(path), length(path) == 1L, nzchar(path))
+create_project <- function(path, python = FALSE, cpp = FALSE, layers = NULL,
+                           git = FALSE, rproj = TRUE, open = FALSE,
+                           quiet = FALSE) {
+  stopifnot(is.character(path), length(path) == 1L, nzchar(path),
+            is.null(layers) || is.character(layers))
+  layers <- unique(c("base", if (isTRUE(python)) "python",
+                     if (isTRUE(cpp)) "cpp", layers))
+  unknown <- setdiff(layers, list_layers())
+  if (length(unknown) > 0) {
+    stop("Unknown layer(s): ", paste(unknown, collapse = ", "),
+         ". See list_layers().", call. = FALSE)
+  }
   check_target(path)
 
-  layers <- c("base", if (isTRUE(python)) "python", if (isTRUE(cpp)) "cpp")
   dir.create(path, recursive = TRUE, showWarnings = FALSE)
   path <- normalizePath(path)
   vars <- list(name = basename(path), date = format(Sys.Date(), "%Y-%m-%d"))
@@ -123,7 +135,6 @@ target_name <- function(rel, vars) {
 
 copy_layer <- function(layer, path, vars, rproj = TRUE) {
   src <- file.path(templates_dir(), layer, "files")
-  if (!dir.exists(src)) stop("Unknown layer: ", layer, call. = FALSE)
   rel <- list.files(src, recursive = TRUE, all.files = TRUE)
   if (!rproj) rel <- rel[!grepl("\\.Rproj$", rel)]
   for (r in rel) {

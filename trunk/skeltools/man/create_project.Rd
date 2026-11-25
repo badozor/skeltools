@@ -8,6 +8,7 @@ create_project(
   path,
   python = FALSE,
   cpp = FALSE,
+  layers = NULL,
   git = FALSE,
   rproj = TRUE,
   open = FALSE,
@@ -20,6 +21,8 @@ create_project(
 \item{python}{adds the Python layer (\verb{src/python/}, \code{requirements.txt}).}
 
 \item{cpp}{adds the C/C++ layer (\verb{src/cpp/}, Rcpp example).}
+
+\item{layers}{names of additional layers (see \code{\link[=list_layers]{list_layers()}}).}
 
 \item{git}{initialises a git repository with an initial commit.}
 
@@ -34,7 +37,8 @@ the absolute project path, invisibly.
 }
 \description{
 Assembles the base template (\verb{data/}, \verb{archive/}, \verb{tmp/}, \verb{src/R/})
-and, optionally, the Python and C/C++ layers.
+and, optionally, the Python and C/C++ layers or any other layer stored
+in the package.
 }
 \details{
 Each layer is a folder \verb{inst/templates/<layer>/} containing:
@@ -45,6 +49,8 @@ and the \verb{dot-} prefix becomes \code{.} (e.g. \code{dot-gitkeep} -> \code{.g
 \item \code{gitignore}: fragment appended to the project \code{.gitignore}.
 \item \code{structure.md}, \code{start.md}: fragments inserted into \code{README.md}.
 }
+
+Template files must be text files.
 }
 \examples{
 p <- file.path(tempdir(), "myproject")
