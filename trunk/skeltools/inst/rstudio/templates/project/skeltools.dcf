@@ -33,6 +33,12 @@ Fields: report, PBreport
 Default: report
 Position: right
 
+Parameter: rprofile
+Widget: CheckboxInput
+Label: Add the project .Rprofile
+Default: On
+Position: left
+
 Parameter: git
 Widget: CheckboxInput
 Label: Initialise a git repository
