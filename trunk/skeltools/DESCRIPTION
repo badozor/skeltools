@@ -5,7 +5,8 @@ Version: 0.1.0
 Authors@R: person("Pierre", "Bady", role = c("aut", "cre"),
                   email = "pierre.bady@gmail.com")
 Description: Creates a standard project structure (data, archive, tmp,
-    src) for R analyses, with optional layers for Python and C/C++.
+    src) for R analyses, with optional layers for Python, C/C++ and a
+    Quarto report.
     Templates are plain files stored in the package and can be extended
     without changing the code. Also available in RStudio through
     'File > New Project'.

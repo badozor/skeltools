@@ -5,6 +5,8 @@
   with optional Python and C/C++ layers, and any other stored layer
   through the `layers` argument.
 * `list_layers()`: lists the available layers.
+* `create_qmd()`: Quarto report template (`.qmd` + `references.bib`);
+  also available as `create_project(quarto = TRUE)`.
 * RStudio project template (File > New Project).
 * Repository organised under `trunk/`: package sources (`trunk/skeltools`),
   PDF manual (`trunk/documentation`), archives (`trunk/Rpackage`).

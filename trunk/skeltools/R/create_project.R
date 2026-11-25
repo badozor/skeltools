@@ -1,8 +1,8 @@
 #' Create a project from the skeltools templates
 #'
 #' Assembles the base template (`data/`, `archive/`, `tmp/`, `src/R/`)
-#' and, optionally, the Python and C/C++ layers or any other layer stored
-#' in the package.
+#' and, optionally, the Python, C/C++ and Quarto layers or any other layer
+#' stored in the package.
 #'
 #' Each layer is a folder `inst/templates/<layer>/` containing:
 #' * `files/`: files copied into the project. `{{name}}` and `{{date}}`
@@ -13,9 +13,13 @@
 #'
 #' Template files must be text files.
 #'
+#' The `quarto` layer also writes `<name>.qmd` and `references.bib` at the
+#' project root with [create_qmd()].
+#'
 #' @param path project path. Must not exist or must be an empty folder.
 #' @param python adds the Python layer (`src/python/`, `requirements.txt`).
 #' @param cpp adds the C/C++ layer (`src/cpp/`, Rcpp example).
+#' @param quarto adds the Quarto layer (`<name>.qmd`, `references.bib`).
 #' @param layers names of additional layers (see [list_layers()]).
 #' @param git initialises a git repository with an initial commit.
 #' @param rproj creates the `<name>.Rproj` file.
@@ -25,17 +29,19 @@
 #' @seealso [list_layers()]
 #' @examples
 #' p <- file.path(tempdir(), "myproject")
-#' create_project(p, python = TRUE, cpp = TRUE)
+#' create_project(p, python = TRUE, cpp = TRUE, quarto = TRUE)
 #' list.files(p, recursive = TRUE, all.files = TRUE)
 #' unlink(p, recursive = TRUE)
 #' @export
-create_project <- function(path, python = FALSE, cpp = FALSE, layers = NULL,
+create_project <- function(path, python = FALSE, cpp = FALSE, quarto = FALSE,
+                           layers = NULL,
                            git = FALSE, rproj = TRUE, open = FALSE,
                            quiet = FALSE) {
   stopifnot(is.character(path), length(path) == 1L, nzchar(path),
             is.null(layers) || is.character(layers))
   layers <- unique(c("base", if (isTRUE(python)) "python",
-                     if (isTRUE(cpp)) "cpp", layers))
+                     if (isTRUE(cpp)) "cpp", if (isTRUE(quarto)) "quarto",
+                     layers))
   unknown <- setdiff(layers, list_layers())
   if (length(unknown) > 0) {
     stop("Unknown layer(s): ", paste(unknown, collapse = ", "),
@@ -48,6 +54,10 @@ create_project <- function(path, python = FALSE, cpp = FALSE, layers = NULL,
   vars <- list(name = basename(path), date = format(Sys.Date(), "%Y-%m-%d"))
 
   for (layer in layers) copy_layer(layer, path, vars, rproj = rproj)
+  if ("quarto" %in% layers) {
+    create_qmd(file.path(path, paste0(vars$name, ".qmd")), title = vars$name,
+               quiet = TRUE)
+  }
 
   write_gitignore(layers, path)
   write_readme(layers, path, vars)
@@ -81,7 +91,7 @@ list_layers <- function() {
 #' RStudio itself creates the folder and the `.Rproj` file.
 #'
 #' @param path path chosen in RStudio.
-#' @param ... form parameters (`python`, `cpp`, `git`).
+#' @param ... form parameters (`python`, `cpp`, `quarto`, `git`).
 #' @keywords internal
 #' @export
 rstudio_project <- function(path, ...) {
@@ -89,6 +99,7 @@ rstudio_project <- function(path, ...) {
   create_project(path,
                  python = isTRUE(opts$python),
                  cpp    = isTRUE(opts$cpp),
+                 quarto = isTRUE(opts$quarto),
                  git    = isTRUE(opts$git),
                  rproj  = FALSE,
                  quiet  = TRUE)
