@@ -10,6 +10,8 @@ create_project(
   cpp = FALSE,
   quarto = FALSE,
   layers = NULL,
+  venv = FALSE,
+  python_bin = NULL,
   git = FALSE,
   rproj = TRUE,
   open = FALSE,
@@ -26,6 +28,12 @@ create_project(
 \item{quarto}{adds the Quarto layer (\verb{<name>.qmd}, \code{references.bib}).}
 
 \item{layers}{names of additional layers (see \code{\link[=list_layers]{list_layers()}}).}
+
+\item{venv}{creates the Python environment \verb{myenv/} and installs the
+packages of \code{requirements.txt} with \code{\link[=create_venv]{create_venv()}}. Implies
+\code{python = TRUE}. Needs a network connection and can take several minutes.}
+
+\item{python_bin}{path of the Python interpreter used by \code{venv}.}
 
 \item{git}{initialises a git repository with an initial commit.}
 

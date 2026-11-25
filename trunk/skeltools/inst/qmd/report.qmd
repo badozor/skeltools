@@ -46,7 +46,7 @@ for (f in list.files("src/R", "\\.R$", full.names = TRUE)) source(f)
 
 # Python via reticulate (optional)
 # library(reticulate)
-# use_virtualenv(".venv", required = TRUE)
+# use_virtualenv("myenv", required = TRUE)
 ```
 
 # Objective

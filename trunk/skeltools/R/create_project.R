@@ -18,6 +18,10 @@
 #'
 #' @param path project path. Must not exist or must be an empty folder.
 #' @param python adds the Python layer (`src/python/`, `requirements.txt`).
+#' @param venv creates the Python environment `myenv/` and installs the
+#'   packages of `requirements.txt` with [create_venv()]. Implies
+#'   `python = TRUE`. Needs a network connection and can take several minutes.
+#' @param python_bin path of the Python interpreter used by `venv`.
 #' @param cpp adds the C/C++ layer (`src/cpp/`, Rcpp example).
 #' @param quarto adds the Quarto layer (`<name>.qmd`, `references.bib`).
 #' @param layers names of additional layers (see [list_layers()]).
@@ -34,11 +38,12 @@
 #' unlink(p, recursive = TRUE)
 #' @export
 create_project <- function(path, python = FALSE, cpp = FALSE, quarto = FALSE,
-                           layers = NULL,
+                           layers = NULL, venv = FALSE, python_bin = NULL,
                            git = FALSE, rproj = TRUE, open = FALSE,
                            quiet = FALSE) {
   stopifnot(is.character(path), length(path) == 1L, nzchar(path),
             is.null(layers) || is.character(layers))
+  if (isTRUE(venv)) python <- TRUE
   layers <- unique(c("base", if (isTRUE(python)) "python",
                      if (isTRUE(cpp)) "cpp", if (isTRUE(quarto)) "quarto",
                      layers))
@@ -62,6 +67,7 @@ create_project <- function(path, python = FALSE, cpp = FALSE, quarto = FALSE,
   write_gitignore(layers, path)
   write_readme(layers, path, vars)
   if (isTRUE(git)) init_git(path, quiet = quiet)
+  if (isTRUE(venv)) create_venv(path, python = python_bin, quiet = quiet)
 
   if (!quiet) {
     message("Project '", vars$name, "' created in: ", path)
@@ -91,13 +97,14 @@ list_layers <- function() {
 #' RStudio itself creates the folder and the `.Rproj` file.
 #'
 #' @param path path chosen in RStudio.
-#' @param ... form parameters (`python`, `cpp`, `quarto`, `git`).
+#' @param ... form parameters (`python`, `venv`, `cpp`, `quarto`, `git`).
 #' @keywords internal
 #' @export
 rstudio_project <- function(path, ...) {
   opts <- list(...)
   create_project(path,
                  python = isTRUE(opts$python),
+                 venv   = isTRUE(opts$venv),
                  cpp    = isTRUE(opts$cpp),
                  quarto = isTRUE(opts$quarto),
                  git    = isTRUE(opts$git),

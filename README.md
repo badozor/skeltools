@@ -38,12 +38,17 @@ create_project("~/projects/myproject", python = TRUE, cpp = TRUE,
                quarto = TRUE, git = TRUE, open = TRUE)            # everything
 list_layers()                                                     # available layers
 
+# Python environment myenv/ (python -m venv + pip install -r requirements.txt)
+create_project("~/projects/myproject", venv = TRUE,
+               python_bin = "/usr/local/bin/python3")
+create_venv("~/projects/myproject")                               # existing project
+
 # Quarto report in an existing project
 create_qmd("~/projects/myproject/analysis", title = "First analysis")
 ```
 
 In RStudio: **File > New Project > New Directory > Analysis project (skeltools)**.
-The form offers Python, C/C++, Quarto and git checkboxes.
+The form offers Python, Python environment, C/C++, Quarto and git checkboxes.
 
 ## Created structure
 
@@ -61,8 +66,25 @@ myproject/
 ├── references.bib                      (quarto = TRUE)
 ├── README.md
 ├── .gitignore
-└── requirements.txt                    (python = TRUE)
+├── requirements.txt                    (python = TRUE)
+└── myenv/                              (venv = TRUE, ignored by git)
 ```
+
+## Python environment
+
+`create_venv()` runs, from R, the equivalent of:
+
+```bash
+cd path_for_project
+path_for_python/python -m venv myenv
+source myenv/bin/activate
+pip install -r requirements.txt
+```
+
+`requirements.txt` lists pooch, scanpy, pandas, numpy, seaborn, igraph,
+leidenalg, scipy, scikit-learn and datasets. Edit it before creating the
+environment to change the packages. The Quarto template refers to the same
+environment (`Jupyter: myenv`, `use_virtualenv("myenv")`).
 
 ## Quarto report
 
