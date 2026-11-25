@@ -15,7 +15,7 @@ test_that("the base template creates the expected structure", {
   expect_false(dir.exists(file.path(p, "src", "cpp")))
 
   setup <- readLines(file.path(p, "src", "R", "00_setup.R"))
-  expect_true(any(grepl("Project : demo", setup, fixed = TRUE)))
+  expect_true(any(grepl("Project: demo", setup, fixed = TRUE)))
   expect_false(any(grepl("{{", setup, fixed = TRUE)))
 
   readme <- readLines(file.path(p, "README.md"))
@@ -64,4 +64,14 @@ test_that("git initialises a repository", {
   p <- new_path()
   create_project(p, git = TRUE, quiet = TRUE)
   expect_true(dir.exists(file.path(p, ".git")))
+})
+
+test_that("layers accepts stored layers and rejects unknown ones", {
+  p <- new_path()
+  create_project(p, layers = "python", quiet = TRUE)
+  expect_true(file.exists(file.path(p, "src", "python", "main.py")))
+  q <- new_path()
+  expect_error(create_project(q, layers = "fortran", quiet = TRUE),
+               "Unknown layer")
+  expect_false(file.exists(q))
 })
