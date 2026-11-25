@@ -1,4 +1,4 @@
-# skeltools
+# skeltools <img src="logo/skeltools_hex.png" align="right" width="130" alt="skeltools logo"/>
 
 Cree la structure standard d'un projet d'analyse R, avec Python et C/C++ en option.
 
