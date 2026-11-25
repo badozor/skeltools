@@ -82,8 +82,10 @@ pip install -r requirements.txt
 ```
 
 `requirements.txt` lists pooch, scanpy, pandas, numpy, seaborn, igraph,
-leidenalg, scipy, scikit-learn and datasets. Edit it before creating the
-environment to change the packages. The Quarto template refers to the same
+leidenalg, scipy, scikit-learn, datasets and ipykernel. Edit it before creating
+the environment to change the packages. When `ipykernel` is installed, the
+environment is also registered as the Jupyter kernel `myenv`
+(`python -m ipykernel install --user --name myenv`). The Quarto template refers to the same
 environment (`Jupyter: myenv`, `use_virtualenv("myenv")`).
 
 ## Quarto report

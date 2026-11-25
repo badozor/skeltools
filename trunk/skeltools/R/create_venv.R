@@ -12,6 +12,12 @@
 #' given with `packages`. The `pip` of the environment is called directly,
 #' so no activation is needed.
 #'
+#' When `ipykernel` is installed in the environment, the environment is also
+#' registered as a Jupyter kernel with the same name
+#' (`python -m ipykernel install --user --name myenv`), so that the line
+#' `Jupyter: myenv` of the Quarto template points to it. The kernel is
+#' registered for the current user, outside the project folder.
+#'
 #' @param path project folder.
 #' @param python path of the Python interpreter used to create the
 #'   environment. Defaults to `python3`, then `python`, found on the `PATH`.
@@ -20,6 +26,8 @@
 #'   `requirements.txt` when it exists.
 #' @param install installs the packages. With `FALSE`, only the empty
 #'   environment is created.
+#' @param kernel registers the environment as a Jupyter kernel when
+#'   `ipykernel` is installed.
 #' @param quiet suppresses messages and the output of `pip`.
 #' @return the absolute path of the environment, invisibly.
 #' @examples
@@ -29,7 +37,8 @@
 #' }
 #' @export
 create_venv <- function(path = ".", python = NULL, name = "myenv",
-                        packages = NULL, install = TRUE, quiet = FALSE) {
+                        packages = NULL, install = TRUE, kernel = TRUE,
+                        quiet = FALSE) {
   if (!dir.exists(path)) {
     stop("Folder '", path, "' does not exist.", call. = FALSE)
   }
@@ -64,6 +73,26 @@ create_venv <- function(path = ".", python = NULL, name = "myenv",
     if (status != 0) {
       stop("pip install failed. The environment was kept in '", env, "'.",
            call. = FALSE)
+    }
+  }
+  py_env <- if (.Platform$OS.type == "windows") {
+    file.path(env, "Scripts", "python.exe")
+  } else {
+    file.path(env, "bin", "python")
+  }
+  if (isTRUE(kernel) &&
+      system2(py_env, c("-c", shQuote("import ipykernel")),
+              stdout = FALSE, stderr = FALSE) == 0) {
+    status <- system2(py_env, c("-m", "ipykernel", "install", "--user",
+                                "--name", shQuote(name),
+                                "--display-name", shQuote(name)),
+                      stdout = if (quiet) FALSE else "",
+                      stderr = if (quiet) FALSE else "")
+    if (status != 0) {
+      warning("Jupyter kernel '", name, "' could not be registered.",
+              call. = FALSE)
+    } else if (!quiet) {
+      message("Jupyter kernel registered: ", name)
     }
   }
   if (!quiet) {
