@@ -1,1 +1,1 @@
-| `src/cpp/` | code C/C++ (via Rcpp) |
+| `src/cpp/` | C/C++ code (via Rcpp) |

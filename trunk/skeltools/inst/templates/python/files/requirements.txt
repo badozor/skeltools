@@ -1,2 +1,2 @@
-# Une dependance par ligne, ex. :
+# One dependency per line, e.g.:
 # pandas>=2.0

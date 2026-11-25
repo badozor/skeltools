@@ -2,7 +2,7 @@ new_path <- function(name = "proj") {
   file.path(tempfile("rt"), name)
 }
 
-test_that("le template de base cree la structure attendue", {
+test_that("the base template creates the expected structure", {
   p <- new_path("demo")
   create_project(p, quiet = TRUE)
   for (d in c("data", "archive", "tmp", "src/R")) {
@@ -15,7 +15,7 @@ test_that("le template de base cree la structure attendue", {
   expect_false(dir.exists(file.path(p, "src", "cpp")))
 
   setup <- readLines(file.path(p, "src", "R", "00_setup.R"))
-  expect_true(any(grepl("Projet : demo", setup, fixed = TRUE)))
+  expect_true(any(grepl("Project : demo", setup, fixed = TRUE)))
   expect_false(any(grepl("{{", setup, fixed = TRUE)))
 
   readme <- readLines(file.path(p, "README.md"))
@@ -27,7 +27,7 @@ test_that("le template de base cree la structure attendue", {
   expect_false("__pycache__/" %in% gi)
 })
 
-test_that("les options python et cpp ajoutent leurs couches", {
+test_that("python and cpp options add their layers", {
   p <- new_path()
   create_project(p, python = TRUE, cpp = TRUE, quiet = TRUE)
   expect_true(file.exists(file.path(p, "src", "python", "main.py")))
@@ -41,25 +41,25 @@ test_that("les options python et cpp ajoutent leurs couches", {
   expect_true(any(grepl("src/cpp", readme, fixed = TRUE)))
 })
 
-test_that("un dossier non vide est refuse, un dossier vide accepte", {
+test_that("a non-empty folder is refused, an empty folder is accepted", {
   p <- new_path()
   dir.create(p, recursive = TRUE)
   expect_silent(create_project(p, quiet = TRUE))
-  expect_error(create_project(p, quiet = TRUE), "n'est pas vide")
+  expect_error(create_project(p, quiet = TRUE), "is not empty")
 })
 
-test_that("rproj = FALSE ne cree pas de .Rproj (cas RStudio)", {
+test_that("rproj = FALSE does not create a .Rproj (RStudio case)", {
   p <- new_path()
   rstudio_project(p, python = TRUE)
   expect_length(list.files(p, pattern = "\\.Rproj$"), 0)
   expect_true(dir.exists(file.path(p, "src", "python")))
 })
 
-test_that("list_layers renvoie les couches", {
+test_that("list_layers returns the layers", {
   expect_identical(list_layers(), c("base", "cpp", "python"))
 })
 
-test_that("git initialise un depot", {
+test_that("git initialises a repository", {
   skip_if(!nzchar(Sys.which("git")))
   p <- new_path()
   create_project(p, git = TRUE, quiet = TRUE)

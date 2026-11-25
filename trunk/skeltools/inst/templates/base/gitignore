@@ -4,12 +4,12 @@
 .RData
 .Ruserdata
 
-# Donnees et temporaires : contenu ignore, dossiers conserves
+# Data and temporary files: content ignored, folders kept
 data/*
 !data/.gitkeep
 tmp/*
 !tmp/.gitkeep
 
-# Systeme
+# System
 .DS_Store
 Thumbs.db

@@ -1,4 +1,4 @@
-"""Projet : {{name}} (cree le {{date}})."""
+"""Project: {{name}} (created on {{date}})."""
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -7,7 +7,7 @@ TMP = ROOT / "tmp"
 
 
 def main() -> None:
-    print(f"Racine du projet : {ROOT}")
+    print(f"Project root: {ROOT}")
 
 
 if __name__ == "__main__":

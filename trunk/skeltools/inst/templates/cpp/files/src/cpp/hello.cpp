@@ -1,5 +1,5 @@
-// Projet : {{name}} (cree le {{date}})
-// Compilation depuis R : Rcpp::sourceCpp("src/cpp/hello.cpp")
+// Project: {{name}} (created on {{date}})
+// Compile from R: Rcpp::sourceCpp("src/cpp/hello.cpp")
 #include <Rcpp.h>
 
 // [[Rcpp::export]]

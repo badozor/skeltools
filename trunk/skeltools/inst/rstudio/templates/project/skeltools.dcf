@@ -1,21 +1,21 @@
 Binding: rstudio_project
-Title: Projet d'analyse (skeltools)
+Title: Analysis project (skeltools)
 OpenFiles: README.md, src/R/00_setup.R
 
 Parameter: python
 Widget: CheckboxInput
-Label: Ajouter Python (src/python)
+Label: Add Python (src/python)
 Default: Off
 Position: left
 
 Parameter: cpp
 Widget: CheckboxInput
-Label: Ajouter C/C++ (src/cpp, via Rcpp)
+Label: Add C/C++ (src/cpp, via Rcpp)
 Default: Off
 Position: left
 
 Parameter: git
 Widget: CheckboxInput
-Label: Initialiser un depot git
+Label: Initialise a git repository
 Default: Off
 Position: left

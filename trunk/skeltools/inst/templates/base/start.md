@@ -1,1 +1,1 @@
-Ouvrir `{{name}}.Rproj` puis lancer `src/R/00_setup.R`.
+Open `{{name}}.Rproj`, then run `src/R/00_setup.R`.

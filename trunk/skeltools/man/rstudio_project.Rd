@@ -2,17 +2,17 @@
 % Please edit documentation in R/create_project.R
 \name{rstudio_project}
 \alias{rstudio_project}
-\title{Point d'entree pour RStudio (File > New Project)}
+\title{Entry point for RStudio (File > New Project)}
 \usage{
 rstudio_project(path, ...)
 }
 \arguments{
-\item{path}{chemin choisi dans RStudio.}
+\item{path}{path chosen in RStudio.}
 
-\item{...}{parametres du formulaire (\code{python}, \code{cpp}, \code{git}).}
+\item{...}{form parameters (\code{python}, \code{cpp}, \code{git}).}
 }
 \description{
-Appelee par RStudio via \code{inst/rstudio/templates/project/rtemplates.dcf}.
-RStudio cree lui-meme le dossier et le fichier \code{.Rproj}.
+Called by RStudio through \code{inst/rstudio/templates/project/skeltools.dcf}.
+RStudio itself creates the folder and the \code{.Rproj} file.
 }
 \keyword{internal}

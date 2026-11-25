@@ -1,26 +1,26 @@
-#' Creer un projet a partir des templates skeltools
+#' Create a project from the skeltools templates
 #'
-#' Assemble le template de base (`data/`, `archive/`, `tmp/`, `src/R/`)
-#' et, en option, les couches Python et C/C++.
+#' Assembles the base template (`data/`, `archive/`, `tmp/`, `src/R/`)
+#' and, optionally, the Python and C/C++ layers.
 #'
-#' Chaque couche est un dossier de `inst/templates/<couche>/` contenant :
-#' * `files/` : fichiers copies dans le projet. `{{name}}` et `{{date}}`
-#'   sont remplaces dans le contenu, `__name__` dans les noms de fichiers,
-#'   et le prefixe `dot-` devient `.` (ex. `dot-gitkeep` -> `.gitkeep`).
-#' * `gitignore` : fragment ajoute au `.gitignore` du projet.
-#' * `structure.md`, `start.md` : fragments inseres dans le `README.md`.
+#' Each layer is a folder `inst/templates/<layer>/` containing:
+#' * `files/`: files copied into the project. `{{name}}` and `{{date}}`
+#'   are replaced in the content, `__name__` in file names,
+#'   and the `dot-` prefix becomes `.` (e.g. `dot-gitkeep` -> `.gitkeep`).
+#' * `gitignore`: fragment appended to the project `.gitignore`.
+#' * `structure.md`, `start.md`: fragments inserted into `README.md`.
 #'
-#' @param path chemin du projet. Doit ne pas exister ou etre un dossier vide.
-#' @param python ajoute la couche Python (`src/python/`, `requirements.txt`).
-#' @param cpp ajoute la couche C/C++ (`src/cpp/`, exemple Rcpp).
-#' @param git initialise un depot git avec un commit initial.
-#' @param rproj cree le fichier `<nom>.Rproj`.
-#' @param open ouvre le projet dans RStudio a la fin (si disponible).
-#' @param quiet supprime les messages.
-#' @return le chemin absolu du projet, de facon invisible.
+#' @param path project path. Must not exist or must be an empty folder.
+#' @param python adds the Python layer (`src/python/`, `requirements.txt`).
+#' @param cpp adds the C/C++ layer (`src/cpp/`, Rcpp example).
+#' @param git initialises a git repository with an initial commit.
+#' @param rproj creates the `<name>.Rproj` file.
+#' @param open opens the project in RStudio at the end (if available).
+#' @param quiet suppresses messages.
+#' @return the absolute project path, invisibly.
 #' @seealso [list_layers()]
 #' @examples
-#' p <- file.path(tempdir(), "monprojet")
+#' p <- file.path(tempdir(), "myproject")
 #' create_project(p, python = TRUE, cpp = TRUE)
 #' list.files(p, recursive = TRUE, all.files = TRUE)
 #' unlink(p, recursive = TRUE)
@@ -42,8 +42,8 @@ create_project <- function(path, python = FALSE, cpp = FALSE, git = FALSE,
   if (isTRUE(git)) init_git(path, quiet = quiet)
 
   if (!quiet) {
-    message("Projet '", vars$name, "' cree dans : ", path)
-    message("Couches : ", paste(layers, collapse = ", "))
+    message("Project '", vars$name, "' created in: ", path)
+    message("Layers: ", paste(layers, collapse = ", "))
   }
   if (isTRUE(open) && requireNamespace("rstudioapi", quietly = TRUE) &&
       rstudioapi::isAvailable()) {
@@ -52,9 +52,9 @@ create_project <- function(path, python = FALSE, cpp = FALSE, git = FALSE,
   invisible(path)
 }
 
-#' Lister les couches de templates disponibles
+#' List the available template layers
 #'
-#' @return un vecteur de noms de couches (`"base"` en premier).
+#' @return a character vector of layer names (`"base"` first).
 #' @examples
 #' list_layers()
 #' @export
@@ -63,13 +63,13 @@ list_layers <- function() {
   c("base", setdiff(sort(layers), "base"))
 }
 
-#' Point d'entree pour RStudio (File > New Project)
+#' Entry point for RStudio (File > New Project)
 #'
-#' Appelee par RStudio via `inst/rstudio/templates/project/rtemplates.dcf`.
-#' RStudio cree lui-meme le dossier et le fichier `.Rproj`.
+#' Called by RStudio through `inst/rstudio/templates/project/skeltools.dcf`.
+#' RStudio itself creates the folder and the `.Rproj` file.
 #'
-#' @param path chemin choisi dans RStudio.
-#' @param ... parametres du formulaire (`python`, `cpp`, `git`).
+#' @param path path chosen in RStudio.
+#' @param ... form parameters (`python`, `cpp`, `git`).
 #' @keywords internal
 #' @export
 rstudio_project <- function(path, ...) {
@@ -82,21 +82,21 @@ rstudio_project <- function(path, ...) {
                  quiet  = TRUE)
 }
 
-# ---- fonctions internes ---------------------------------------------------
+# ---- internal functions ---------------------------------------------------
 
 templates_dir <- function() {
   d <- system.file("templates", package = "skeltools")
-  if (!nzchar(d)) stop("Dossier des templates introuvable.", call. = FALSE)
+  if (!nzchar(d)) stop("Templates folder not found.", call. = FALSE)
   d
 }
 
 check_target <- function(path) {
   if (!file.exists(path)) return(invisible(TRUE))
   if (!dir.exists(path)) {
-    stop("'", path, "' existe et n'est pas un dossier.", call. = FALSE)
+    stop("'", path, "' exists and is not a folder.", call. = FALSE)
   }
   if (length(list.files(path, all.files = TRUE, no.. = TRUE)) > 0) {
-    stop("'", path, "' existe et n'est pas vide. Rien n'a ete modifie.",
+    stop("'", path, "' exists and is not empty. Nothing was changed.",
          call. = FALSE)
   }
   invisible(TRUE)
@@ -123,14 +123,14 @@ target_name <- function(rel, vars) {
 
 copy_layer <- function(layer, path, vars, rproj = TRUE) {
   src <- file.path(templates_dir(), layer, "files")
-  if (!dir.exists(src)) stop("Couche inconnue : ", layer, call. = FALSE)
+  if (!dir.exists(src)) stop("Unknown layer: ", layer, call. = FALSE)
   rel <- list.files(src, recursive = TRUE, all.files = TRUE)
   if (!rproj) rel <- rel[!grepl("\\.Rproj$", rel)]
   for (r in rel) {
     dest <- file.path(path, target_name(r, vars))
     dir.create(dirname(dest), recursive = TRUE, showWarnings = FALSE)
     if (file.exists(dest)) {
-      stop("Conflit entre couches : '", target_name(r, vars), "'.",
+      stop("Conflict between layers: '", target_name(r, vars), "'.",
            call. = FALSE)
     }
     txt <- readLines(file.path(src, r), warn = FALSE)
@@ -159,7 +159,7 @@ write_readme <- function(layers, path, vars) {
 
 init_git <- function(path, quiet = FALSE) {
   if (!nzchar(Sys.which("git"))) {
-    warning("git introuvable, depot non initialise.", call. = FALSE)
+    warning("git not found, repository not initialised.", call. = FALSE)
     return(invisible(FALSE))
   }
   run <- function(...) {
@@ -168,9 +168,9 @@ init_git <- function(path, quiet = FALSE) {
   run("init", "-q")
   run("add", ".")
   ok <- run("commit", "-q", "-m",
-            shQuote("Initialisation de la structure du projet")) == 0
+            shQuote("Initial project structure")) == 0
   if (!ok && !quiet) {
-    message("Note : commit initial non fait (configure user.name / user.email).")
+    message("Note: initial commit not made (set git user.name / user.email).")
   }
   invisible(ok)
 }

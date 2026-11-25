@@ -1,89 +1,90 @@
 # skeltools <img src="logo/skeltools_hex.png" align="right" width="130" alt="skeltools logo"/>
 
-Cree la structure standard d'un projet d'analyse R, avec Python et C/C++ en option.
+Creates a standard project structure for R analyses, with optional Python and C/C++ layers.
 
-## Organisation du depot
+## Repository layout
 
 ```
 skeltools/
+├── logo/                hexagonal logo
 └── trunk/
-    ├── skeltools/       sources du package R
-    ├── documentation/   manuel de reference (PDF)
-    └── Rpackage/        archives du package
-        ├── skeltools_<version>.tar.gz                        sources compressees
-        └── skeltools_<version>_R_x86_64-pc-linux-gnu.tar.gz  binaire Linux
+    ├── skeltools/       R package sources
+    ├── documentation/   reference manual (PDF)
+    └── Rpackage/        package archives
+        ├── skeltools_<version>.tar.gz                        compressed sources
+        └── skeltools_<version>_R_x86_64-pc-linux-gnu.tar.gz  Linux binary
 ```
 
 ## Installation
 
 ```r
-# depuis GitHub (le package est dans un sous-dossier)
+# from GitHub (the package lives in a subfolder)
 remotes::install_github("badozor/skeltools", subdir = "trunk/skeltools")
 
-# ou depuis l'archive source telechargee (toutes plateformes)
+# or from the downloaded source archive (all platforms)
 install.packages("skeltools_0.1.0.tar.gz", repos = NULL, type = "source")
 ```
 
-Le package est ecrit en R pur. L'archive source s'installe donc sous Linux, macOS
-et Windows sans compilateur. Le binaire fourni est construit sous Linux.
+The package is written in pure R. The source archive therefore installs on Linux,
+macOS and Windows without a compiler. The binary provided is built on Linux.
 
-## Utilisation
+## Usage
 
 ```r
 library(skeltools)
-create_project("~/projets/monprojet")                             # R seul
-create_project("~/projets/monprojet", python = TRUE)              # + Python
-create_project("~/projets/monprojet", python = TRUE, cpp = TRUE,
-               git = TRUE, open = TRUE)                           # tout
+create_project("~/projects/myproject")                            # R only
+create_project("~/projects/myproject", python = TRUE)             # + Python
+create_project("~/projects/myproject", python = TRUE, cpp = TRUE,
+               git = TRUE, open = TRUE)                           # everything
 list_layers()
 ```
 
-Dans RStudio : **File > New Project > New Directory > Projet d'analyse (skeltools)**.
-Le formulaire propose les cases Python, C/C++ et git.
+In RStudio: **File > New Project > New Directory > Analysis project (skeltools)**.
+The form offers Python, C/C++ and git checkboxes.
 
-## Structure creee
+## Created structure
 
 ```
-monprojet/
-├── data/          donnees (contenu ignore par git)
-├── archive/       anciennes versions, scripts abandonnes
-├── tmp/           fichiers temporaires (contenu ignore par git)
+myproject/
+├── data/          data (content ignored by git)
+├── archive/       old versions, abandoned scripts
+├── tmp/           temporary files (content ignored by git)
 ├── src/
-│   ├── R/         00_setup.R (+ 01_cpp.R avec cpp = TRUE)
+│   ├── R/         00_setup.R (+ 01_cpp.R with cpp = TRUE)
 │   ├── python/    main.py              (python = TRUE)
 │   └── cpp/       hello.cpp, via Rcpp  (cpp = TRUE)
-├── monprojet.Rproj
+├── myproject.Rproj
 ├── README.md
 ├── .gitignore
 └── requirements.txt                    (python = TRUE)
 ```
 
-## Ajouter une couche
+## Adding a layer
 
-Creer `trunk/skeltools/inst/templates/<couche>/` avec :
+Create `trunk/skeltools/inst/templates/<layer>/` with:
 
 | Element | Role |
 |---|---|
-| `files/` | fichiers copies dans le projet |
-| `gitignore` | fragment ajoute au `.gitignore` |
-| `structure.md` | lignes du tableau de structure du README |
-| `start.md` | paragraphe de la section Demarrage du README |
+| `files/` | files copied into the project |
+| `gitignore` | fragment appended to `.gitignore` |
+| `structure.md` | rows of the README structure table |
+| `start.md` | paragraph of the README "Getting started" section |
 
-Conventions dans `files/` : `{{name}}` et `{{date}}` sont remplaces dans le contenu,
-`__name__` dans les noms de fichiers, et le prefixe `dot-` devient `.`
-(`dot-gitkeep` donne `.gitkeep`, ce qui evite que `R CMD build` ignore les fichiers caches).
+Conventions in `files/`: `{{name}}` and `{{date}}` are replaced in the content,
+`__name__` in file names, and the `dot-` prefix becomes `.`
+(`dot-gitkeep` gives `.gitkeep`, which prevents `R CMD build` from dropping hidden files).
 
-Il faut ensuite ajouter l'argument correspondant dans `create_project()` et une case dans
+Then add the matching argument to `create_project()` and a checkbox to
 `trunk/skeltools/inst/rstudio/templates/project/skeltools.dcf`.
 
-## Construire les archives et la documentation
+## Building the archives and the documentation
 
-Depuis `trunk/` :
+From `trunk/`:
 
 ```bash
-R CMD build skeltools                                  # sources compressees
-R CMD check --as-cran skeltools_0.1.0.tar.gz           # verification
-R CMD INSTALL --build skeltools_0.1.0.tar.gz           # binaire
+R CMD build skeltools                                  # compressed sources
+R CMD check --as-cran skeltools_0.1.0.tar.gz           # checks
+R CMD INSTALL --build skeltools_0.1.0.tar.gz           # binary
 mv skeltools_0.1.0*.tar.gz Rpackage/
 R CMD Rd2pdf --no-preview --force -o documentation/skeltools_0.1.0.pdf skeltools
 ```
