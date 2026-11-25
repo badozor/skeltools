@@ -26,6 +26,13 @@ Label: Add a Quarto report (<name>.qmd)
 Default: Off
 Position: left
 
+Parameter: qmd_template
+Widget: SelectInput
+Label: Quarto template
+Fields: report, PBreport
+Default: report
+Position: right
+
 Parameter: git
 Widget: CheckboxInput
 Label: Initialise a git repository

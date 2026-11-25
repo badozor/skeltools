@@ -16,6 +16,8 @@
 #' An empty `orcid` or `email` removes the corresponding line.
 #'
 #' @param file path of the report. The `.qmd` extension is added if missing.
+#' @param template name of the Quarto template, see [list_qmd_templates()]:
+#'   `"report"` (standard report) or `"PBreport"` (customised report).
 #' @param title report title. Defaults to the file name without extension.
 #' @param author author name.
 #' @param orcid author ORCID, or `""` to omit it.
@@ -30,16 +32,18 @@
 #' d <- file.path(tempdir(), "qmd-example")
 #' dir.create(d)
 #' create_qmd(file.path(d, "analysis"), title = "First analysis")
+#' create_qmd(file.path(d, "custom"), template = "PBreport")
 #' list.files(d)
 #' unlink(d, recursive = TRUE)
 #' @export
-create_qmd <- function(file, title = NULL,
+create_qmd <- function(file, template = "report", title = NULL,
                        author = getOption("skeltools.author", "Pierre Bady"),
                        orcid = getOption("skeltools.orcid", "0000-0003-1398-4689"),
                        email = getOption("skeltools.email", "pierre.bady@gmail.com"),
                        bib = TRUE, overwrite = FALSE, open = FALSE,
                        quiet = FALSE) {
   stopifnot(is.character(file), length(file) == 1L, nzchar(file))
+  template <- match.arg(template, list_qmd_templates())
   if (!grepl("\\.qmd$", file, ignore.case = TRUE)) file <- paste0(file, ".qmd")
   dir <- dirname(file)
   if (!dir.exists(dir)) {
@@ -61,7 +65,7 @@ create_qmd <- function(file, title = NULL,
     email  = if (is.null(email)) "" else email,
     date   = format(Sys.Date(), "%Y-%m-%d")
   )
-  txt <- readLines(qmd_template("report.qmd"), warn = FALSE)
+  txt <- readLines(qmd_template(paste0(template, ".qmd")), warn = FALSE)
   txt <- render(txt, vars)
   txt <- txt[!grepl('^\\s+(orcid|email):\\s*("")?\\s*$', txt)]
   writeLines(txt, file, useBytes = TRUE)
@@ -77,6 +81,21 @@ create_qmd <- function(file, title = NULL,
     rstudioapi::navigateToFile(file)
   }
   invisible(file)
+}
+
+#' List the available Quarto templates
+#'
+#' The templates are the `.qmd` files stored in `inst/qmd/` of the package.
+#' To add one, put a `.qmd` file there and reinstall the package.
+#'
+#' @return a character vector of template names (`"report"` first).
+#' @examples
+#' list_qmd_templates()
+#' @export
+list_qmd_templates <- function() {
+  d <- system.file("qmd", package = "skeltools")
+  tpl <- sub("\\.qmd$", "", list.files(d, pattern = "\\.qmd$"))
+  c("report", setdiff(sort(tpl), "report"))
 }
 
 qmd_template <- function(file) {

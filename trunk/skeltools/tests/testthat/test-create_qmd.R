@@ -39,3 +39,16 @@ test_that("create_project(quarto = TRUE) adds the report", {
   expect_true(any(grepl("demo.qmd", readLines(file.path(p, "README.md")),
                         fixed = TRUE)))
 })
+
+test_that("the PBreport template can be chosen", {
+  expect_identical(list_qmd_templates(), c("report", "PBreport"))
+  d <- tempfile("qmd")
+  dir.create(d)
+  f <- create_qmd(file.path(d, "pb"), template = "PBreport", quiet = TRUE)
+  expect_true(file.exists(f))
+  expect_false(any(grepl("{{", readLines(f), fixed = TRUE)))
+  expect_error(create_qmd(file.path(d, "x"), template = "nope", quiet = TRUE))
+  p <- file.path(tempfile("rt"), "demo")
+  create_project(p, quarto = TRUE, qmd_template = "PBreport", quiet = TRUE)
+  expect_true(file.exists(file.path(p, "demo.qmd")))
+})

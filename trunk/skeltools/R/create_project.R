@@ -24,6 +24,8 @@
 #' @param python_bin path of the Python interpreter used by `venv`.
 #' @param cpp adds the C/C++ layer (`src/cpp/`, Rcpp example).
 #' @param quarto adds the Quarto layer (`<name>.qmd`, `references.bib`).
+#' @param qmd_template Quarto template used by the Quarto layer, see
+#'   [list_qmd_templates()].
 #' @param layers names of additional layers (see [list_layers()]).
 #' @param git initialises a git repository with an initial commit.
 #' @param rproj creates the `<name>.Rproj` file.
@@ -39,11 +41,13 @@
 #' @export
 create_project <- function(path, python = FALSE, cpp = FALSE, quarto = FALSE,
                            layers = NULL, venv = FALSE, python_bin = NULL,
+                           qmd_template = "report",
                            git = FALSE, rproj = TRUE, open = FALSE,
                            quiet = FALSE) {
   stopifnot(is.character(path), length(path) == 1L, nzchar(path),
             is.null(layers) || is.character(layers))
   if (isTRUE(venv)) python <- TRUE
+  qmd_template <- match.arg(qmd_template, list_qmd_templates())
   layers <- unique(c("base", if (isTRUE(python)) "python",
                      if (isTRUE(cpp)) "cpp", if (isTRUE(quarto)) "quarto",
                      layers))
@@ -60,8 +64,8 @@ create_project <- function(path, python = FALSE, cpp = FALSE, quarto = FALSE,
 
   for (layer in layers) copy_layer(layer, path, vars, rproj = rproj)
   if ("quarto" %in% layers) {
-    create_qmd(file.path(path, paste0(vars$name, ".qmd")), title = vars$name,
-               quiet = TRUE)
+    create_qmd(file.path(path, paste0(vars$name, ".qmd")),
+               template = qmd_template, title = vars$name, quiet = TRUE)
   }
 
   write_gitignore(layers, path)
@@ -97,7 +101,8 @@ list_layers <- function() {
 #' RStudio itself creates the folder and the `.Rproj` file.
 #'
 #' @param path path chosen in RStudio.
-#' @param ... form parameters (`python`, `venv`, `cpp`, `quarto`, `git`).
+#' @param ... form parameters (`python`, `venv`, `cpp`, `quarto`,
+#'   `qmd_template`, `git`).
 #' @keywords internal
 #' @export
 rstudio_project <- function(path, ...) {
@@ -107,6 +112,8 @@ rstudio_project <- function(path, ...) {
                  venv   = isTRUE(opts$venv),
                  cpp    = isTRUE(opts$cpp),
                  quarto = isTRUE(opts$quarto),
+                 qmd_template = if (is.null(opts$qmd_template)) "report" else
+                   opts$qmd_template,
                  git    = isTRUE(opts$git),
                  rproj  = FALSE,
                  quiet  = TRUE)

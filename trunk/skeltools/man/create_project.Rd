@@ -12,6 +12,7 @@ create_project(
   layers = NULL,
   venv = FALSE,
   python_bin = NULL,
+  qmd_template = "report",
   git = FALSE,
   rproj = TRUE,
   open = FALSE,
@@ -34,6 +35,9 @@ packages of \code{requirements.txt} with \code{\link[=create_venv]{create_venv()
 \code{python = TRUE}. Needs a network connection and can take several minutes.}
 
 \item{python_bin}{path of the Python interpreter used by \code{venv}.}
+
+\item{qmd_template}{Quarto template used by the Quarto layer, see
+\code{\link[=list_qmd_templates]{list_qmd_templates()}}.}
 
 \item{git}{initialises a git repository with an initial commit.}
 

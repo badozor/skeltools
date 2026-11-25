@@ -45,6 +45,8 @@ create_venv("~/projects/myproject")                               # existing pro
 
 # Quarto report in an existing project
 create_qmd("~/projects/myproject/analysis", title = "First analysis")
+create_qmd("~/projects/myproject/custom", template = "PBreport")  # customised template
+list_qmd_templates()
 ```
 
 In RStudio: **File > New Project > New Directory > Analysis project (skeltools)**.
@@ -104,6 +106,19 @@ options(skeltools.author = "Jane Doe", skeltools.orcid = "", skeltools.email = "
 ```
 
 An empty ORCID or email removes the line. Render with `quarto render myproject.qmd`.
+
+Two Quarto templates are available (`list_qmd_templates()`):
+
+| Template | File in the package | Use |
+|---|---|---|
+| `report` | `trunk/skeltools/inst/qmd/report.qmd` | standard report (default) |
+| `PBreport` | `trunk/skeltools/inst/qmd/PBreport.qmd` | customised report |
+
+Choose with `create_qmd(..., template = "PBreport")` or
+`create_project(..., quarto = TRUE, qmd_template = "PBreport")`, or with the
+"Quarto template" list in RStudio. Any `.qmd` file added to `inst/qmd/` becomes
+a new template after reinstalling the package. The placeholders `{{title}}`,
+`{{name}}`, `{{author}}`, `{{orcid}}`, `{{email}}` and `{{date}}` are filled in.
 
 ## Adding a layer
 
