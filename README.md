@@ -76,13 +76,13 @@ myproject/
 ## Project .Rprofile
 
 By default each project gets a `.Rprofile` (startup messages, working directory,
-library paths, packages RColorBrewer, ade4 and pixmap, options). These packages
-must be installed, otherwise R stops with an error when it starts in the project,
-and so does the rendering of a Quarto report. Use `rprofile = FALSE` to skip it.
+library paths, base packages, options). Use `rprofile = FALSE` to skip it.
 
 A project created with `quarto = TRUE, qmd_template = "PBreport"` gets a second
-`.Rprofile`, which also sources `/export/scratch2/Rplus/Rconfig.R` and
-`/export/scratch2/Rplus/Rutility.R`. Both files must exist on the machine.
+`.Rprofile`, which also loads RColorBrewer, ade4 and pixmap and sources
+`/export/scratch2/Rplus/Rconfig.R` and `/export/scratch2/Rplus/Rutility.R`.
+These packages and files must exist on the machine, otherwise R stops with an
+error when it starts in the project, and so does the rendering of the report.
 
 The two files are stored in `trunk/skeltools/inst/rprofile/`
 (`default.Rprofile`, `PBreport.Rprofile`).

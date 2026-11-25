@@ -29,12 +29,12 @@
 #' @param layers names of additional layers (see [list_layers()]).
 #' @param git initialises a git repository with an initial commit.
 #' @param rproj creates the `<name>.Rproj` file.
-#' @param rprofile creates the project `.Rprofile` (startup messages, packages
-#'   RColorBrewer, ade4 and pixmap, options). These packages must be
-#'   installed, otherwise R stops with an error when it starts in the project.
-#'   With `quarto = TRUE` and `qmd_template = "PBreport"`, the `.Rprofile`
-#'   also sources `/export/scratch2/Rplus/Rconfig.R` and
-#'   `/export/scratch2/Rplus/Rutility.R`, which must exist.
+#' @param rprofile creates the project `.Rprofile` (startup messages, library
+#'   paths, base packages, options). With `quarto = TRUE` and
+#'   `qmd_template = "PBreport"`, the `.Rprofile` also loads RColorBrewer,
+#'   ade4 and pixmap and sources `/export/scratch2/Rplus/Rconfig.R` and
+#'   `/export/scratch2/Rplus/Rutility.R`. These packages and files must
+#'   exist, otherwise R stops with an error when it starts in the project.
 #' @param open opens the project in RStudio at the end (if available).
 #' @param quiet suppresses messages.
 #' @return the absolute project path, invisibly.
