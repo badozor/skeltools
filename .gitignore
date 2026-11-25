@@ -1,5 +1,11 @@
 .Rproj.user/
 .Rhistory
 .RData
+*.Rcheck/
+
+# Archives : seules celles de trunk/Rpackage sont versionnees
 *.tar.gz
-skeltools.Rcheck/
+!trunk/Rpackage/*.tar.gz
+
+# Fichiers temporaires LaTeX de Rd2pdf
+.Rd2pdf*/

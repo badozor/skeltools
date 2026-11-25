@@ -10,6 +10,8 @@ Description: Creates a standard project structure (data, archive, tmp,
     without changing the code. Also available in RStudio through
     'File > New Project'.
 License: GPL (>= 3)
+URL: https://github.com/badozor/skeltools
+BugReports: https://github.com/badozor/skeltools/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Suggests:
