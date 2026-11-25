@@ -10,6 +10,7 @@ create_venv(
   name = "myenv",
   packages = NULL,
   install = TRUE,
+  kernel = TRUE,
   quiet = FALSE
 )
 }
@@ -26,6 +27,9 @@ environment. Defaults to \code{python3}, then \code{python}, found on the \code{
 
 \item{install}{installs the packages. With \code{FALSE}, only the empty
 environment is created.}
+
+\item{kernel}{registers the environment as a Jupyter kernel when
+\code{ipykernel} is installed.}
 
 \item{quiet}{suppresses messages and the output of \code{pip}.}
 }
@@ -45,6 +49,13 @@ The environment is created inside the project. Packages are read from
 \code{requirements.txt} (written by the Python layer of \code{\link[=create_project]{create_project()}}) or
 given with \code{packages}. The \code{pip} of the environment is called directly,
 so no activation is needed.
+}
+\details{
+When \code{ipykernel} is installed in the environment, the environment is also
+registered as a Jupyter kernel with the same name
+(\verb{python -m ipykernel install --user --name myenv}), so that the line
+\code{Jupyter: myenv} of the Quarto template points to it. The kernel is
+registered for the current user, outside the project folder.
 }
 \examples{
 \dontrun{

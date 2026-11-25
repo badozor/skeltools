@@ -14,7 +14,7 @@ test_that("the python layer lists the packages and ignores myenv", {
   p <- file.path(tempfile("rt"), "demo")
   create_project(p, python = TRUE, quiet = TRUE)
   req <- readLines(file.path(p, "requirements.txt"))
-  expect_true(all(c("scanpy", "leidenalg", "scikit-learn") %in% req))
+  expect_true(all(c("scanpy", "leidenalg", "scikit-learn", "ipykernel") %in% req))
   expect_true("myenv/" %in% readLines(file.path(p, ".gitignore")))
 })
 

@@ -11,3 +11,4 @@ leidenalg
 scipy
 scikit-learn
 datasets
+ipykernel
