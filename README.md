@@ -80,6 +80,13 @@ library paths, packages RColorBrewer, ade4 and pixmap, options). These packages
 must be installed, otherwise R stops with an error when it starts in the project,
 and so does the rendering of a Quarto report. Use `rprofile = FALSE` to skip it.
 
+A project created with `quarto = TRUE, qmd_template = "PBreport"` gets a second
+`.Rprofile`, which also sources `/export/scratch2/Rplus/Rconfig.R` and
+`/export/scratch2/Rplus/Rutility.R`. Both files must exist on the machine.
+
+The two files are stored in `trunk/skeltools/inst/rprofile/`
+(`default.Rprofile`, `PBreport.Rprofile`).
+
 ## Python environment
 
 `create_venv()` runs, from R, the equivalent of:

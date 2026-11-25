@@ -86,3 +86,13 @@ test_that("the .Rprofile is created by default and can be skipped", {
   create_project(q, rprofile = FALSE, quiet = TRUE)
   expect_false(file.exists(file.path(q, ".Rprofile")))
 })
+
+test_that("a PBreport project gets the PBreport .Rprofile", {
+  p <- new_path()
+  create_project(p, quarto = TRUE, qmd_template = "PBreport", quiet = TRUE)
+  rp <- readLines(file.path(p, ".Rprofile"))
+  expect_true('source("/export/scratch2/Rplus/Rutility.R")' %in% rp)
+  q <- new_path()
+  create_project(q, quarto = TRUE, quiet = TRUE)
+  expect_false(any(grepl("/export/scratch2", readLines(file.path(q, ".Rprofile")))))
+})

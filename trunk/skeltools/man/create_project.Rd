@@ -46,7 +46,10 @@ packages of \code{requirements.txt} with \code{\link[=create_venv]{create_venv()
 
 \item{rprofile}{creates the project \code{.Rprofile} (startup messages, packages
 RColorBrewer, ade4 and pixmap, options). These packages must be
-installed, otherwise R stops with an error when it starts in the project.}
+installed, otherwise R stops with an error when it starts in the project.
+With \code{quarto = TRUE} and \code{qmd_template = "PBreport"}, the \code{.Rprofile}
+also sources \verb{/export/scratch2/Rplus/Rconfig.R} and
+\verb{/export/scratch2/Rplus/Rutility.R}, which must exist.}
 
 \item{open}{opens the project in RStudio at the end (if available).}
 

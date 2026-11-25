@@ -4,7 +4,8 @@
 * `create_project()`: base template (`data/`, `archive/`, `tmp/`, `src/R/`)
   with optional Python and C/C++ layers, and any other stored layer
   through the `layers` argument.
-* Project `.Rprofile` created by default (`rprofile = FALSE` to skip it).
+* Project `.Rprofile` created by default (`rprofile = FALSE` to skip it);
+  a specific `.Rprofile` for projects using the `PBreport` Quarto template.
 * `list_layers()`: lists the available layers.
 * `create_venv()`: Python environment `myenv/` (venv + pip install of
   `requirements.txt`, Jupyter kernel `myenv` registered inside
