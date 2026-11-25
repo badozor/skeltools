@@ -1,4 +1,4 @@
-Environnement Python :
+Python environment:
 
 ```bash
 python -m venv .venv && source .venv/bin/activate

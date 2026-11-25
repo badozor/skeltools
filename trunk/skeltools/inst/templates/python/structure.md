@@ -1,1 +1,1 @@
-| `src/python/` | scripts Python |
+| `src/python/` | Python scripts |

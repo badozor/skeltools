@@ -1,8 +1,8 @@
-# Projet : {{name}}
-# Cree le : {{date}}
-# Objet  : chargement des packages et chemins du projet
+# Project : {{name}}
+# Created : {{date}}
+# Purpose : load packages and define project paths
 
-# Chemins relatifs a la racine du projet (ouvrir {{name}}.Rproj)
+# Paths relative to the project root (open {{name}}.Rproj)
 dir_data    <- "data"
 dir_archive <- "archive"
 dir_tmp     <- "tmp"

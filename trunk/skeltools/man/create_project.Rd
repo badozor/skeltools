@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_project.R
 \name{create_project}
 \alias{create_project}
-\title{Creer un projet a partir des templates skeltools}
+\title{Create a project from the skeltools templates}
 \usage{
 create_project(
   path,
@@ -15,39 +15,39 @@ create_project(
 )
 }
 \arguments{
-\item{path}{chemin du projet. Doit ne pas exister ou etre un dossier vide.}
+\item{path}{project path. Must not exist or must be an empty folder.}
 
-\item{python}{ajoute la couche Python (\verb{src/python/}, \code{requirements.txt}).}
+\item{python}{adds the Python layer (\verb{src/python/}, \code{requirements.txt}).}
 
-\item{cpp}{ajoute la couche C/C++ (\verb{src/cpp/}, exemple Rcpp).}
+\item{cpp}{adds the C/C++ layer (\verb{src/cpp/}, Rcpp example).}
 
-\item{git}{initialise un depot git avec un commit initial.}
+\item{git}{initialises a git repository with an initial commit.}
 
-\item{rproj}{cree le fichier \verb{<nom>.Rproj}.}
+\item{rproj}{creates the \verb{<name>.Rproj} file.}
 
-\item{open}{ouvre le projet dans RStudio a la fin (si disponible).}
+\item{open}{opens the project in RStudio at the end (if available).}
 
-\item{quiet}{supprime les messages.}
+\item{quiet}{suppresses messages.}
 }
 \value{
-le chemin absolu du projet, de facon invisible.
+the absolute project path, invisibly.
 }
 \description{
-Assemble le template de base (\verb{data/}, \verb{archive/}, \verb{tmp/}, \verb{src/R/})
-et, en option, les couches Python et C/C++.
+Assembles the base template (\verb{data/}, \verb{archive/}, \verb{tmp/}, \verb{src/R/})
+and, optionally, the Python and C/C++ layers.
 }
 \details{
-Chaque couche est un dossier de \verb{inst/templates/<couche>/} contenant :
+Each layer is a folder \verb{inst/templates/<layer>/} containing:
 \itemize{
-\item \verb{files/} : fichiers copies dans le projet. \code{{{name}}} et \code{{{date}}}
-sont remplaces dans le contenu, \verb{__name__} dans les noms de fichiers,
-et le prefixe \verb{dot-} devient \code{.} (ex. \code{dot-gitkeep} -> \code{.gitkeep}).
-\item \code{gitignore} : fragment ajoute au \code{.gitignore} du projet.
-\item \code{structure.md}, \code{start.md} : fragments inseres dans le \code{README.md}.
+\item \verb{files/}: files copied into the project. \code{{{name}}} and \code{{{date}}}
+are replaced in the content, \verb{__name__} in file names,
+and the \verb{dot-} prefix becomes \code{.} (e.g. \code{dot-gitkeep} -> \code{.gitkeep}).
+\item \code{gitignore}: fragment appended to the project \code{.gitignore}.
+\item \code{structure.md}, \code{start.md}: fragments inserted into \code{README.md}.
 }
 }
 \examples{
-p <- file.path(tempdir(), "monprojet")
+p <- file.path(tempdir(), "myproject")
 create_project(p, python = TRUE, cpp = TRUE)
 list.files(p, recursive = TRUE, all.files = TRUE)
 unlink(p, recursive = TRUE)

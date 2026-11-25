@@ -1,1 +1,1 @@
-Code C++ : installer Rcpp et un compilateur, puis lancer `src/R/01_cpp.R`.
+C++ code: install Rcpp and a compiler, then run `src/R/01_cpp.R`.

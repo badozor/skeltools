@@ -1,4 +1,4 @@
-| `data/` | donnees brutes et intermediaires (non versionnees) |
-| `archive/` | anciennes versions et scripts abandonnes |
-| `tmp/` | fichiers temporaires (non versionnes) |
-| `src/R/` | scripts R |
+| `data/` | raw and intermediate data (not versioned) |
+| `archive/` | old versions and abandoned scripts |
+| `tmp/` | temporary files (not versioned) |
+| `src/R/` | R scripts |

@@ -1,13 +1,13 @@
 # {{name}}
 
-Cree le {{date}}.
+Created on {{date}}.
 
 ## Structure
 
-| Dossier | Contenu |
+| Folder | Content |
 |---|---|
 {{structure}}
 
-## Demarrage
+## Getting started
 
 {{start}}

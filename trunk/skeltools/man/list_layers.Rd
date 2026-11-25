@@ -2,15 +2,15 @@
 % Please edit documentation in R/create_project.R
 \name{list_layers}
 \alias{list_layers}
-\title{Lister les couches de templates disponibles}
+\title{List the available template layers}
 \usage{
 list_layers()
 }
 \value{
-un vecteur de noms de couches (\code{"base"} en premier).
+a character vector of layer names (\code{"base"} first).
 }
 \description{
-Lister les couches de templates disponibles
+List the available template layers
 }
 \examples{
 list_layers()
