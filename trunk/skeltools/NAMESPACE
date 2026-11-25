@@ -2,5 +2,6 @@
 
 export(create_project)
 export(create_qmd)
+export(create_venv)
 export(list_layers)
 export(rstudio_project)

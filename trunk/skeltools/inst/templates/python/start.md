@@ -1,6 +1,7 @@
-Python environment:
+Python environment (`myenv/`), from R: `skeltools::create_venv()`, or from a terminal:
 
 ```bash
-python -m venv .venv && source .venv/bin/activate
+path_for_python/python -m venv myenv
+source myenv/bin/activate
 pip install -r requirements.txt
 ```

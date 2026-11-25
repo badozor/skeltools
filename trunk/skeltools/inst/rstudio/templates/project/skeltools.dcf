@@ -8,6 +8,12 @@ Label: Add Python (src/python)
 Default: Off
 Position: left
 
+Parameter: venv
+Widget: CheckboxInput
+Label: Create the Python environment myenv (slow)
+Default: Off
+Position: left
+
 Parameter: cpp
 Widget: CheckboxInput
 Label: Add C/C++ (src/cpp, via Rcpp)

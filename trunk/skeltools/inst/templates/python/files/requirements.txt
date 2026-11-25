@@ -1,2 +1,13 @@
-# One dependency per line, e.g.:
-# pandas>=2.0
+# Python packages of the project, one per line.
+# Installed in myenv/ by skeltools::create_venv() or:
+#   python -m venv myenv && source myenv/bin/activate && pip install -r requirements.txt
+pooch
+scanpy
+pandas
+numpy
+seaborn
+igraph
+leidenalg
+scipy
+scikit-learn
+datasets

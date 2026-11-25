@@ -5,6 +5,8 @@
   with optional Python and C/C++ layers, and any other stored layer
   through the `layers` argument.
 * `list_layers()`: lists the available layers.
+* `create_venv()`: Python environment `myenv/` (venv + pip install of
+  `requirements.txt`); also available as `create_project(venv = TRUE)`.
 * `create_qmd()`: Quarto report template (`.qmd` + `references.bib`);
   also available as `create_project(quarto = TRUE)`.
 * RStudio project template (File > New Project).
