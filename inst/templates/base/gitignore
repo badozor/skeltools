@@ -1,0 +1,15 @@
+# R
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Donnees et temporaires : contenu ignore, dossiers conserves
+data/*
+!data/.gitkeep
+tmp/*
+!tmp/.gitkeep
+
+# Systeme
+.DS_Store
+Thumbs.db

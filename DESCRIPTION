@@ -1,0 +1,19 @@
+Package: skeltools
+Type: Package
+Title: Project Templates for R (with Optional Python and C++)
+Version: 0.1.0
+Authors@R: person("Pierre", "Bady", role = c("aut", "cre"),
+                  email = "pierre.bady@gmail.com")
+Description: Creates a standard project structure (data, archive, tmp,
+    src) for R analyses, with optional layers for Python and C/C++.
+    Templates are plain files stored in the package and can be extended
+    without changing the code. Also available in RStudio through
+    'File > New Project'.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Suggests:
+    rstudioapi,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+RoxygenNote: 7.3.1
