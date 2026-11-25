@@ -52,10 +52,13 @@ so no activation is needed.
 }
 \details{
 When \code{ipykernel} is installed in the environment, the environment is also
-registered as a Jupyter kernel with the same name
-(\verb{python -m ipykernel install --user --name myenv}), so that the line
-\code{Jupyter: myenv} of the Quarto template points to it. The kernel is
-registered for the current user, outside the project folder.
+registered as a Jupyter kernel with the same name, inside the environment
+itself (\verb{python -m ipykernel install --sys-prefix --name myenv}). The kernel
+is therefore specific to the project: nothing is written outside the
+project folder, and two projects can each have their own \code{myenv}. It is
+visible to Jupyter and Quarto when the environment is activated
+(\verb{source myenv/bin/activate}), so that the line \code{Jupyter: myenv} of the
+Quarto template points to it.
 }
 \examples{
 \dontrun{

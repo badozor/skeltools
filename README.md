@@ -84,8 +84,11 @@ pip install -r requirements.txt
 `requirements.txt` lists pooch, scanpy, pandas, numpy, seaborn, igraph,
 leidenalg, scipy, scikit-learn, datasets and ipykernel. Edit it before creating
 the environment to change the packages. When `ipykernel` is installed, the
-environment is also registered as the Jupyter kernel `myenv`
-(`python -m ipykernel install --user --name myenv`). The Quarto template refers to the same
+environment is also registered as the Jupyter kernel `myenv`, inside the
+environment itself (`python -m ipykernel install --sys-prefix --name myenv`).
+Each project therefore has its own environment and its own kernel, and nothing
+is written outside the project folder. The kernel is visible to Jupyter and
+Quarto once the environment is activated (`source myenv/bin/activate`). The Quarto template refers to the same
 environment (`Jupyter: myenv`, `use_virtualenv("myenv")`).
 
 ## Quarto report
