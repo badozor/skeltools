@@ -10,7 +10,7 @@ rstudio_project(path, ...)
 \item{path}{path chosen in RStudio.}
 
 \item{...}{form parameters (\code{python}, \code{venv}, \code{cpp}, \code{quarto},
-\code{qmd_template}, \code{git}).}
+\code{qmd_template}, \code{rprofile}, \code{git}).}
 }
 \description{
 Called by RStudio through \code{inst/rstudio/templates/project/skeltools.dcf}.

@@ -75,3 +75,14 @@ test_that("layers accepts stored layers and rejects unknown ones", {
                "Unknown layer")
   expect_false(file.exists(q))
 })
+
+test_that("the .Rprofile is created by default and can be skipped", {
+  p <- new_path()
+  create_project(p, quiet = TRUE)
+  rp <- readLines(file.path(p, ".Rprofile"))
+  expect_identical(rp[1], "#Pierre BADY <pierre.bady@gmail.com>")
+  expect_identical(rp[length(rp)], "# END #")
+  q <- new_path()
+  create_project(q, rprofile = FALSE, quiet = TRUE)
+  expect_false(file.exists(file.path(q, ".Rprofile")))
+})

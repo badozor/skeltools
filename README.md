@@ -64,6 +64,7 @@ myproject/
 │   ├── python/    main.py              (python = TRUE)
 │   └── cpp/       hello.cpp, via Rcpp  (cpp = TRUE)
 ├── myproject.Rproj
+├── .Rprofile                            startup messages, packages, options (rprofile = TRUE)
 ├── myproject.qmd                       (quarto = TRUE)
 ├── references.bib                      (quarto = TRUE)
 ├── README.md
@@ -71,6 +72,13 @@ myproject/
 ├── requirements.txt                    (python = TRUE)
 └── myenv/                              (venv = TRUE, ignored by git)
 ```
+
+## Project .Rprofile
+
+By default each project gets a `.Rprofile` (startup messages, working directory,
+library paths, packages RColorBrewer, ade4 and pixmap, options). These packages
+must be installed, otherwise R stops with an error when it starts in the project,
+and so does the rendering of a Quarto report. Use `rprofile = FALSE` to skip it.
 
 ## Python environment
 

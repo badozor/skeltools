@@ -29,6 +29,9 @@
 #' @param layers names of additional layers (see [list_layers()]).
 #' @param git initialises a git repository with an initial commit.
 #' @param rproj creates the `<name>.Rproj` file.
+#' @param rprofile creates the project `.Rprofile` (startup messages, packages
+#'   RColorBrewer, ade4 and pixmap, options). These packages must be
+#'   installed, otherwise R stops with an error when it starts in the project.
 #' @param open opens the project in RStudio at the end (if available).
 #' @param quiet suppresses messages.
 #' @return the absolute project path, invisibly.
@@ -42,7 +45,8 @@
 create_project <- function(path, python = FALSE, cpp = FALSE, quarto = FALSE,
                            layers = NULL, venv = FALSE, python_bin = NULL,
                            qmd_template = "report",
-                           git = FALSE, rproj = TRUE, open = FALSE,
+                           git = FALSE, rproj = TRUE, rprofile = TRUE,
+                           open = FALSE,
                            quiet = FALSE) {
   stopifnot(is.character(path), length(path) == 1L, nzchar(path),
             is.null(layers) || is.character(layers))
@@ -62,7 +66,9 @@ create_project <- function(path, python = FALSE, cpp = FALSE, quarto = FALSE,
   path <- normalizePath(path)
   vars <- list(name = basename(path), date = format(Sys.Date(), "%Y-%m-%d"))
 
-  for (layer in layers) copy_layer(layer, path, vars, rproj = rproj)
+  for (layer in layers) {
+    copy_layer(layer, path, vars, rproj = rproj, rprofile = rprofile)
+  }
   if ("quarto" %in% layers) {
     create_qmd(file.path(path, paste0(vars$name, ".qmd")),
                template = qmd_template, title = vars$name, quiet = TRUE)
@@ -102,7 +108,7 @@ list_layers <- function() {
 #'
 #' @param path path chosen in RStudio.
 #' @param ... form parameters (`python`, `venv`, `cpp`, `quarto`,
-#'   `qmd_template`, `git`).
+#'   `qmd_template`, `rprofile`, `git`).
 #' @keywords internal
 #' @export
 rstudio_project <- function(path, ...) {
@@ -115,6 +121,7 @@ rstudio_project <- function(path, ...) {
                  qmd_template = if (is.null(opts$qmd_template)) "report" else
                    opts$qmd_template,
                  git    = isTRUE(opts$git),
+                 rprofile = !isFALSE(opts$rprofile),
                  rproj  = FALSE,
                  quiet  = TRUE)
 }
@@ -158,10 +165,11 @@ target_name <- function(rel, vars) {
   paste(parts, collapse = "/")
 }
 
-copy_layer <- function(layer, path, vars, rproj = TRUE) {
+copy_layer <- function(layer, path, vars, rproj = TRUE, rprofile = TRUE) {
   src <- file.path(templates_dir(), layer, "files")
   rel <- list.files(src, recursive = TRUE, all.files = TRUE)
   if (!rproj) rel <- rel[!grepl("\\.Rproj$", rel)]
+  if (!rprofile) rel <- rel[basename(rel) != "dot-Rprofile"]
   for (r in rel) {
     dest <- file.path(path, target_name(r, vars))
     dir.create(dirname(dest), recursive = TRUE, showWarnings = FALSE)

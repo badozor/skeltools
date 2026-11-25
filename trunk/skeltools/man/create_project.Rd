@@ -15,6 +15,7 @@ create_project(
   qmd_template = "report",
   git = FALSE,
   rproj = TRUE,
+  rprofile = TRUE,
   open = FALSE,
   quiet = FALSE
 )
@@ -42,6 +43,10 @@ packages of \code{requirements.txt} with \code{\link[=create_venv]{create_venv()
 \item{git}{initialises a git repository with an initial commit.}
 
 \item{rproj}{creates the \verb{<name>.Rproj} file.}
+
+\item{rprofile}{creates the project \code{.Rprofile} (startup messages, packages
+RColorBrewer, ade4 and pixmap, options). These packages must be
+installed, otherwise R stops with an error when it starts in the project.}
 
 \item{open}{opens the project in RStudio at the end (if available).}
 
